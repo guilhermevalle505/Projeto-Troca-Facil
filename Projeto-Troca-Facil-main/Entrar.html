@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar - TrocaFácil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #374151;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+            border-radius: 25px;
+            padding: 0.5rem 1.25rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: #4f46e5;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 100px 0 60px;
+        }
+
+        .welcome-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        .welcome-content {
+            color: white;
+        }
+
+        .welcome-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .welcome-content p {
+            font-size: 1.3rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 3rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.1rem;
+        }
+
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-card {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+        }
+
+        .login-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .login-card h2 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #1f2937;
+        }
+
+        .login-subtitle {
+            color: #6b7280;
+            margin-bottom: 35px;
+            font-size: 1.1rem;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+        }
+
+        .register-link {
+            color: #6b7280;
+            font-size: 1rem;
+        }
+
+        .register-link a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Statistics Section */
+        .stats-section {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 60px 0;
+            margin-top: 60px;
+            border-radius: 20px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(31, 41, 55, 0.95);
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #f9fafb;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .welcome-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .welcome-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .welcome-content p {
+                font-size: 1.1rem;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .nav-buttons {
+                gap: 10px;
+            }
+            
+            .nav-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .login-card {
+                padding: 40px 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .welcome-content h1 {
+                font-size: 2rem;
+            }
+
+            .welcome-content p {
+                font-size: 1rem;
+            }
+
+            .login-card {
+                padding: 30px 20px;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animated {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="MainFile.html" class="logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    TrocaFácil
+                </a>
+                <div class="nav-buttons">
+                    <a href="MainFile.html" class="nav-btn">Home</a>
+                    <a href="Sobrenos.html" class="nav-btn">Sobre Nós</a>
+                    <a href="catalogo.html" class="nav-btn">Itens para Troca</a>
+                    <a href="cursos.html" class="nav-btn">Cursos</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="welcome-container">
+                <div class="welcome-content animated">
+                    <h1>Bem-vindo de volta à TrocaFácil!</h1>
+                    <p>Entre na sua conta e continue fazendo parte da nossa comunidade de trocas sustentáveis.</p>
+                    
+                    <div class="features">
+                        <div class="feature-item animated delay-1">
+                            <div class="feature-icon">✓</div>
+                            <span>Acesse seus itens para troca</span>
+                        </div>
+                        <div class="feature-item animated delay-2">
+                            <div class="feature-icon">✓</div>
+                            <span>Veja suas negociações em andamento</span>
+                        </div>
+                        <div class="feature-item animated delay-3">
+                            <div class="feature-icon">✓</div>
+                            <span>Conecte-se com outros trocadores</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-section animated delay-3">
+                        <div class="stats-container">
+                            <div class="stat-item">
+                                <span class="stat-number">50K+</span>
+                                <span class="stat-label">Trocadores Ativos</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">100K+</span>
+                                <span class="stat-label">Trocas Realizadas</span>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number">95%</span>
+                                <span class="stat-label">Satisfação dos Usuários</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="login-card animated delay-1">
+                    <div class="login-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                            <circle cx="12" cy="7" r="4"/>
+                        </svg>
+                    </div>
+                    <h2>Entre na Sua Conta</h2>
+                    <p class="login-subtitle">Acesse sua conta para gerenciar suas trocas e conexões</p>
+                    
+                    <button class="login-btn" onclick="window.location.href='login.html'">
+                        Fazer Login
+                    </button>
+                    
+                    <p class="register-link">
+                        Não tem uma conta?
+                        <a href="cadastro.html">Cadastre-se agora</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>TrocaFácil</h4>
+                    <p>Facilitando trocas sustentáveis entre pessoas.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="MainFile.html">Home</a></li>
+                        <li><a href="Sobrenos.html">Sobre Nós</a></li>
+                        <li><a href="catalogo.html">Itens para Troca</a></li>
+                        <li><a href="cursos.html">Cursos</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Termos de Uso</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">Diretrizes da Comunidade</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Redes Sociais</h4>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 TrocaFácil. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Adiciona animações de entrada
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.animated');
+            
+            animatedElements.forEach((element, index) => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(30px)';
+                
+                setTimeout(() => {
+                    element.style.transition = 'all 0.8s ease-out';
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+
+            // Efeito de digitação no título
+            const title = document.querySelector('.welcome-content h1');
+            const originalText = title.textContent;
+            title.textContent = '';
+            
+            let i = 0;
+            function typeWriter() {
+                if (i < originalText.length) {
+                    title.textContent += originalText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                }
+            }
+            
+            // Inicia a animação de digitação após um breve delay
+            setTimeout(typeWriter, 500);
+        });
+
+        // Efeito de hover suave nos botões
+        document.querySelectorAll('.nav-btn, .login-btn').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
