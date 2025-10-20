@@ -1,0 +1,965 @@
+=<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursos Disponíveis - TrocaFácil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: #f9fafb;
+            color: #374151;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+            border-radius: 25px;
+            padding: 0.5rem 1.25rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: #4f46e5;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 0.6rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            padding: 30px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .filter-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            padding: 10px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            background: white;
+            font-size: 1rem;
+            min-width: 180px;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+
+        .search-box {
+            position: relative;
+            min-width: 300px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px 10px 45px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+
+        /* Courses Grid */
+        .courses-section {
+            padding: 40px 0 80px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #1f2937;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .course-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4f46e5;
+            font-size: 3rem;
+        }
+
+        .course-content {
+            padding: 25px;
+        }
+
+        .course-category {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .course-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: #1f2937;
+            line-height: 1.4;
+            height: 3.6em;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .course-description {
+            color: #6b7280;
+            margin-bottom: 20px;
+            line-height: 1.5;
+            height: 4.5em;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .course-info {
+            display: flex;
+            gap: 15px;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .course-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .course-price {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #10b981;
+        }
+
+        .course-instructor {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .instructor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4f46e5;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .instructor-info h4 {
+            font-size: 0.9rem;
+            color: #1f2937;
+            margin-bottom: 2px;
+        }
+
+        .instructor-info p {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #4f46e5;
+            color: white;
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 60px 0;
+            color: #6b7280;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #4f46e5;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 0;
+            color: #6b7280;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #374151;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f2937;
+            color: white;
+            padding: 50px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #f9fafb;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .courses-grid {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-box {
+                min-width: auto;
+            }
+            
+            .courses-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-buttons {
+                gap: 10px;
+            }
+            
+            .nav-btn, .login-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .hero {
+                padding: 100px 0 40px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .course-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="MainFile.html" class="logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    TrocaFácil
+                </a>
+                <div class="nav-buttons">
+                    <a href="MainFile.html" class="nav-btn">Home</a>
+                    <a href="Sobrenos.html" class="nav-btn">Sobre Nós</a>
+                    <a href="../../Contato.html" class="nav-btn">Contato</a>
+                    <button class="login-btn" onclick="window.location.href='login.html'">Entrar</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <section class="hero">
+        <div class="container">
+            <h1>Cursos Disponíveis</h1>
+            <p>Aprenda novas habilidades e troque conhecimento com nossa comunidade</p>
+        </div>
+    </section>
+
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-container">
+                <div class="filter-group">
+                    <label class="filter-label">Categoria</label>
+                    <select class="filter-select" id="category-filter">
+                        <option value="">Todas as Categorias</option>
+                        <option value="programming">Programação</option>
+                        <option value="design">Design</option>
+                        <option value="business">Negócios</option>
+                        <option value="marketing">Marketing</option>
+                        <option value="language">Idiomas</option>
+                    </select>
+                </div>
+        
+                <div class="filter-group">
+                    <label class="filter-label">Nível</label>
+                    <select class="filter-select" id="level-filter">
+                        <option value="">Todos os Níveis</option>
+                        <option value="beginner">Iniciante</option>
+                        <option value="intermediate">Intermediário</option>
+                        <option value="advanced">Avançado</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Ordenar por</label>
+                    <select class="filter-select" id="sort-filter">
+                        <option value="popular">Mais Populares</option>
+                        <option value="newest">Mais Recentes</option>
+                        <option value="price-low">Preço: Menor para Maior</option>
+                        <option value="price-high">Preço: Maior para Menor</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group search-box">
+                    <label class="filter-label">Buscar Curso</label>
+                    <div style="position: relative;">
+                        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <input type="text" class="search-input" id="search-input" placeholder="Digite o nome do curso...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="courses-section">
+        <div class="container">
+            <h2 class="section-title">Nossos Cursos</h2>
+            
+            <div id="courses-container">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Carregando cursos...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>TrocaFácil</h4>
+                    <p>Facilitando trocas sustentáveis entre pessoas.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="MainFile.html">Home</a></li>
+                        <li><a href="Sobrenos.html">Sobre Nós</a></li>
+                        <li><a href="catalogo.html">Itens para Troca</a></li>
+                        <li><a href="cursos.html">Cursos</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Termos de Uso</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">Diretrizes da Comunidade</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Redes Sociais</h4>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 TrocaFácil. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const COURSES_API = 'https://api.freeapi.app/api/v1/public/randomcourses?page=1&limit=20&query=programming';
+        
+        // Elementos do DOM
+        const coursesContainer = document.getElementById('courses-container');
+        const categoryFilter = document.getElementById('category-filter');
+        const levelFilter = document.getElementById('level-filter');
+        const sortFilter = document.getElementById('sort-filter');
+        const searchInput = document.getElementById('search-input');
+
+        // Mapeamento de categorias
+        const categoryMap = {
+            'programming': 'Programação',
+            'design': 'Design',
+            'business': 'Negócios',
+            'marketing': 'Marketing',
+            'language': 'Idiomas'
+        };
+
+        // Mapeamento de níveis
+        const levelMap = {
+            'beginner': 'Iniciante',
+            'intermediate': 'Intermediário',
+            'advanced': 'Avançado'
+        };
+
+        // Instrutores fictícios
+        const instructors = [
+            { name: "Carlos Silva", role: "Desenvolvedor Sênior" },
+            { name: "Ana Rodrigues", role: "Designer UX/UI" },
+            { name: "Miguel Santos", role: "Especialista em Marketing" },
+            { name: "Juliana Lima", role: "Consultora de Negócios" },
+            { name: "Roberto Alves", role: "Professor de Idiomas" },
+            { name: "Patrícia Costa", role: "Cientista de Dados" }
+        ];
+
+        // Função para buscar cursos da API
+        async function fetchCourses() {
+            try {
+                const response = await fetch(COURSES_API);
+                
+                if (!response.ok) {
+                    throw new Error(`Erro HTTP! Status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success && data.data && data.data.data) {
+                    return data.data.data;
+                } else {
+                    throw new Error('Estrutura de dados inesperada da API');
+                }
+                
+            } catch (error) {
+                console.error('Erro ao buscar cursos:', error);
+                
+                // Fallback: dados de exemplo caso a API falhe
+                return getFallbackCourses();
+            }
+        }
+
+        // Dados de fallback caso a API não funcione
+        function getFallbackCourses() {
+            return [
+                {
+                    id: 1,
+                    courseName: "JavaScript Moderno do Zero",
+                    description: "Aprenda JavaScript com as melhores práticas e recursos modernos",
+                    price: 197.90,
+                    rating: 4.8,
+                    students: 1250,
+                    instructor: "Carlos Silva"
+                },
+                {
+                    id: 2,
+                    courseName: "Design UX/UI Profissional",
+                    description: "Domine as técnicas de design de interface e experiência do usuário",
+                    price: 247.50,
+                    rating: 4.9,
+                    students: 890,
+                    instructor: "Ana Rodrigues"
+                },
+                {
+                    id: 3,
+                    courseName: "Marketing Digital Completo",
+                    description: "Estratégias de marketing para redes sociais e tráfego pago",
+                    price: 297.00,
+                    rating: 4.7,
+                    students: 1560,
+                    instructor: "Miguel Santos"
+                },
+                {
+                    id: 4,
+                    courseName: "Python para Data Science",
+                    description: "Análise de dados e machine learning com Python",
+                    price: 327.90,
+                    rating: 4.9,
+                    students: 2100,
+                    instructor: "Patrícia Costa"
+                },
+                {
+                    id: 5,
+                    courseName: "Inglês para Negócios",
+                    description: "Aprenda inglês focado no ambiente corporativo",
+                    price: 187.50,
+                    rating: 4.6,
+                    students: 740,
+                    instructor: "Roberto Alves"
+                },
+                {
+                    id: 6,
+                    courseName: "Gestão de Projetos Ágil",
+                    description: "Metodologias ágeis para gerenciar projetos com eficiência",
+                    price: 267.00,
+                    rating: 4.8,
+                    students: 1120,
+                    instructor: "Juliana Lima"
+                }
+            ];
+        }
+
+        // Função para processar e formatar os cursos
+        function processCourses(courses) {
+            return courses.map((course, index) => {
+                // Categorias disponíveis
+                const categories = ['programming', 'design', 'business', 'marketing', 'language'];
+                const levels = ['beginner', 'intermediate', 'advanced'];
+                
+                const category = categories[index % categories.length];
+                const level = levels[index % levels.length];
+                const instructor = instructors[index % instructors.length];
+                
+                // Duração aleatória entre 4 e 40 horas
+                const duration = Math.floor(Math.random() * 37) + 4;
+                
+                return {
+                    id: course.id || index + 1,
+                    title: course.courseName || course.title || `Curso ${index + 1}`,
+                    description: course.description || `Descrição do curso ${index + 1}`,
+                    category: category,
+                    categoryName: categoryMap[category] || 'Programação',
+                    level: level,
+                    levelName: levelMap[level] || 'Iniciante',
+                    instructor: instructor,
+                    price: course.price || Math.floor(Math.random() * 451) + 50,
+                    duration: duration,
+                    rating: course.rating || (Math.random() * 1.5 + 3.5).toFixed(1),
+                    students: course.students || Math.floor(Math.random() * 2000) + 100
+                };
+            });
+        }
+
+        // Função para exibir os cursos
+        function displayCourses(courses) {
+            if (courses.length === 0) {
+                coursesContainer.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Nenhum curso encontrado</h3>
+                        <p>Tente ajustar os filtros de busca</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            coursesContainer.innerHTML = '';
+            
+            courses.forEach(course => {
+                const courseCard = document.createElement('div');
+                courseCard.className = 'course-card';
+                
+                // Ícone baseado na categoria
+                const categoryIcons = {
+                    'programming': '💻',
+                    'design': '🎨',
+                    'business': '📊',
+                    'marketing': '📱',
+                    'language': '🌍'
+                };
+                
+                const icon = categoryIcons[course.category] || '📚';
+                
+                courseCard.innerHTML = `
+                    <div class="course-image">
+                        ${icon}
+                    </div>
+                    <div class="course-content">
+                        <span class="course-category">${course.categoryName} • ${course.levelName}</span>
+                        <h3 class="course-title">${course.title}</h3>
+                        <p class="course-description">${course.description}</p>
+                        
+                        <div class="course-meta">
+                            <div class="course-info">
+                                <span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <polyline points="12 6 12 12 16 14"/>
+                                    </svg>
+                                    ${course.duration}h
+                                </span>
+                                <span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                                        <circle cx="12" cy="7" r="4"/>
+                                    </svg>
+                                    ${course.students.toLocaleString()}
+                                </span>
+                                <span>
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                    </svg>
+                                    ${course.rating}
+                                </span>
+                            </div>
+                            <div class="course-price">R$ ${course.price.toFixed(2)}</div>
+                        </div>
+                        
+                        <div class="course-instructor">
+                            <div class="instructor-avatar">
+                                ${course.instructor.name.split(' ').map(n => n[0]).join('')}
+                            </div>
+                            <div class="instructor-info">
+                                <h4>${course.instructor.name}</h4>
+                                <p>${course.instructor.role}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="course-actions">
+                            <button class="btn-primary" onclick="enrollCourse(${course.id})">Inscrever-se</button>
+                            <button class="btn-secondary" onclick="viewCourseDetails(${course.id})">Detalhes</button>
+                        </div>
+                    </div>
+                `;
+                
+                coursesContainer.appendChild(courseCard);
+            });
+        }
+
+        function filterAndSortCourses(courses) {
+            let filteredCourses = [...courses];
+            
+            const categoryValue = categoryFilter.value;
+            if (categoryValue) {
+                filteredCourses = filteredCourses.filter(course => course.category === categoryValue);
+            }
+            
+            const levelValue = levelFilter.value;
+            if (levelValue) {
+                filteredCourses = filteredCourses.filter(course => course.level === levelValue);
+            }
+            
+            const searchValue = searchInput.value.toLowerCase();
+            if (searchValue) {
+                filteredCourses = filteredCourses.filter(course => 
+                    course.title.toLowerCase().includes(searchValue) || 
+                    course.description.toLowerCase().includes(searchValue) ||
+                    course.categoryName.toLowerCase().includes(searchValue)
+                );
+            }
+            
+            // Ordenação
+            const sortValue = sortFilter.value;
+            switch (sortValue) {
+                case 'newest':
+                    filteredCourses.sort((a, b) => b.id - a.id);
+                    break;
+                case 'price-low':
+                    filteredCourses.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-high':
+                    filteredCourses.sort((a, b) => b.price - a.price);
+                    break;
+                case 'popular':
+                default:
+                    filteredCourses.sort((a, b) => b.students - a.students);
+                    break;
+            }
+            
+            return filteredCourses;
+        }
+
+        function enrollCourse(courseId) {
+            alert(`Inscrição no curso ${courseId} realizada com sucesso!`);
+        }
+
+        function viewCourseDetails(courseId) {
+            alert(`Detalhes do curso ${courseId} (página em desenvolvimento)`);
+        }
+
+        document.addEventListener('DOMContentLoaded', async function() {
+            const rawCourses = await fetchCourses();
+            const processedCourses = processCourses(rawCourses);
+            
+            displayCourses(processedCourses);
+            
+            categoryFilter.addEventListener('change', () => {
+                const filteredCourses = filterAndSortCourses(processedCourses);
+                displayCourses(filteredCourses);
+            });
+            
+            levelFilter.addEventListener('change', () => {
+                const filteredCourses = filterAndSortCourses(processedCourses);
+                displayCourses(filteredCourses);
+            });
+            
+            sortFilter.addEventListener('change', () => {
+                const filteredCourses = filterAndSortCourses(processedCourses);
+                displayCourses(filteredCourses);
+            });
+            
+            searchInput.addEventListener('input', () => {
+                const filteredCourses = filterAndSortCourses(processedCourses);
+                displayCourses(filteredCourses);
+            });
+        });
+    </script>
+</body>
+</html>
