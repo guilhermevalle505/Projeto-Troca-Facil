@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo de Itens para Troca - TrocaFácil</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            background-color: #f9fafb;
+            color: #374151;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-btn {
+            background: transparent;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+            border-radius: 25px;
+            padding: 0.5rem 1.25rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: #4f46e5;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 0.6rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+        }
+
+        .login-btn:hover {
+            background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+            color: white;
+            padding: 120px 0 60px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Filter Section */
+        .filter-section {
+            background: white;
+            padding: 30px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+
+        .filter-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .filter-select {
+            padding: 12px 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            background: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            border: 2px solid #e5e7eb;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+
+        /* Items Grid */
+        .items-section {
+            padding: 40px 0 80px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #1f2937;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .item-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .item-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .item-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+        }
+
+        .item-content {
+            padding: 20px;
+        }
+
+        .item-category {
+            display: inline-block;
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .item-condition {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+
+        .item-title {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #1f2937;
+            line-height: 1.4;
+            height: 2.8em;
+            overflow: hidden;
+        }
+
+        .trade-info {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .trade-info strong {
+            display: block;
+            margin-top: 5px;
+            font-size: 1rem;
+        }
+
+        .item-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .item-location {
+            color: #6b7280;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .item-date {
+            color: #6b7280;
+            font-size: 0.8rem;
+        }
+
+        .item-trader {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .trader-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4f46e5;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .trader-info h4 {
+            font-size: 0.9rem;
+            color: #1f2937;
+            margin-bottom: 2px;
+        }
+
+        .trader-info p {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-primary {
+            flex: 1;
+            background: linear-gradient(135deg, #6366f1 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #4f46e5;
+            color: white;
+        }
+
+        /* Results Info */
+        .results-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .results-count {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .active-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .filter-tag {
+            background: #e0e7ff;
+            color: #4f46e5;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .filter-tag .remove {
+            cursor: pointer;
+            padding: 2px;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+
+        .filter-tag .remove:hover {
+            background: rgba(79, 70, 229, 0.1);
+        }
+
+        /* Loading State */
+        .loading {
+            text-align: center;
+            padding: 60px 0;
+            color: #6b7280;
+        }
+
+        .loading-spinner {
+            border: 4px solid #f3f4f6;
+            border-top: 4px solid #4f46e5;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 0;
+            color: #6b7280;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #374151;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f2937;
+            color: white;
+            padding: 50px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #f9fafb;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            color: #d1d5db;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #374151;
+            color: #9ca3af;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .items-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .filter-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .items-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-buttons {
+                gap: 10px;
+            }
+            
+            .nav-btn, .login-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.8rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .results-info {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .hero {
+                padding: 100px 0 40px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .item-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <a href="MainFile.html" class="logo">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                    </svg>
+                    TrocaFácil
+                </a>
+                <div class="nav-buttons">
+                    <a href="MainFile.html" class="nav-btn">Home</a>
+                    <a href="Sobrenos.html" class="nav-btn">Sobre Nós</a>
+                    <a href="../../Contato.html" class="nav-btn">Contato</a>
+                    <button class="login-btn" onclick="window.location.href='login.html'">Entrar</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Itens para Troca</h1>
+            <p>Encontre itens interessantes e proponha trocas sustentáveis</p>
+        </div>
+    </section>
+
+    <!-- Filter Section -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-container">
+                <div class="filter-group">
+                    <label class="filter-label">Categoria</label>
+                    <select class="filter-select" id="category-filter">
+                        <option value="">Todas as Categorias</option>
+                        <option value="eletronicos">Eletrônicos</option>
+                        <option value="livros">Livros</option>
+                        <option value="roupas">Roupas</option>
+                        <option value="esportes">Esportes</option>
+                        <option value="casa">Casa e Decoração</option>
+                        <option value="instrumentos">Instrumentos Musicais</option>
+                        <option value="ferramentas">Ferramentas</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Condição</label>
+                    <select class="filter-select" id="condition-filter">
+                        <option value="">Todas as Condições</option>
+                        <option value="novo">Novo</option>
+                        <option value="seminovo">Semi-novo</option>
+                        <option value="usado">Usado</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label class="filter-label">Ordenar por</label>
+                    <select class="filter-select" id="sort-filter">
+                        <option value="popular">Mais Populares</option>
+                        <option value="recentes">Mais Recentes</option>
+                        <option value="proximidade">Mais Próximos</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group search-box">
+                    <label class="filter-label">Buscar Item</label>
+                    <div style="position: relative;">
+                        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <input type="text" class="search-input" id="search-input" placeholder="Digite o nome do item...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Items Section -->
+    <section class="items-section">
+        <div class="container">
+            <h2 class="section-title">Itens Disponíveis para Troca</h2>
+            
+            <!-- Results Info -->
+            <div class="results-info" id="results-info">
+                <div class="results-count" id="results-count">Carregando itens...</div>
+                <div class="active-filters" id="active-filters"></div>
+            </div>
+            
+            <!-- Items Grid -->
+            <div id="items-container">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>Carregando itens para troca...</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4>TrocaFácil</h4>
+                    <p>Facilitando trocas sustentáveis entre pessoas.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Links Rápidos</h4>
+                    <ul>
+                        <li><a href="MainFile.html">Home</a></li>
+                        <li><a href="Sobrenos.html">Sobre Nós</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Termos de Uso</a></li>
+                        <li><a href="#">Política de Privacidade</a></li>
+                        <li><a href="#">Diretrizes da Comunidade</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>Redes Sociais</h4>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Twitter</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 TrocaFácil. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dados de exemplo para os itens de troca
+        const itemsData = [
+            {
+                id: 1,
+                title: "Smartphone Samsung Galaxy S20",
+                description: "Smartphone em ótimo estado, com capa e película protetora. Funcionando perfeitamente.",
+                category: "eletronicos",
+                condition: "seminovo",
+                desiredTrade: "Tablet ou Câmera Digital",
+                image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=300&fit=crop",
+                location: "São Paulo, SP",
+                date: "2 dias atrás",
+                trader: "Carlos Silva",
+                popularity: 95
+            },
+            {
+                id: 2,
+                title: "Coleção de Livros de Stephen King",
+                description: "10 livros do autor Stephen King, todos em bom estado de conservação.",
+                category: "livros",
+                condition: "usado",
+                desiredTrade: "Livros de Terror ou Suspense",
+                image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=400&h=300&fit=crop",
+                location: "Rio de Janeiro, RJ",
+                date: "1 dia atrás",
+                trader: "Ana Rodrigues",
+                popularity: 88
+            },
+            {
+                id: 3,
+                title: "Tênis Nike Air Max 270",
+                description: "Tênis número 42, pouco usado. Cor preta e branca.",
+                category: "roupas",
+                condition: "seminovo",
+                desiredTrade: "Tênis Adidas ou Moletom",
+                image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=300&fit=crop",
+                location: "Belo Horizonte, MG",
+                date: "3 dias atrás",
+                trader: "Miguel Santos",
+                popularity: 92
+            },
+            {
+                id: 4,
+                title: "Violão Acústico Giannini",
+                description: "Violão em excelente estado, com case e palhetas. Som de ótima qualidade.",
+                category: "instrumentos",
+                condition: "seminovo",
+                desiredTrade: "Guitarra ou Teclado Musical",
+                image: "https://images.unsplash.com/photo-1525202019595-4c1b3b10da5a?w=400&h=300&fit=crop",
+                location: "Curitiba, PR",
+                date: "5 dias atrás",
+                trader: "Patrícia Costa",
+                popularity: 85
+            },
+            {
+                id: 5,
+                title: "Skate Profissional Completo",
+                description: "Skate completo, shape novo, trucks e rodas em ótimo estado.",
+                category: "esportes",
+                condition: "usado",
+                desiredTrade: "Patins ou Equipamento de Surf",
+                image: "https://images.unsplash.com/photo-1547447134-cd3f5c716030?w=400&h=300&fit=crop",
+                location: "Porto Alegre, RS",
+                date: "1 semana atrás",
+                trader: "Roberto Alves",
+                popularity: 78
+            },
+            {
+                id: 6,
+                title: "Jogo de Panelas Antiaderente",
+                description: "Conjunto com 5 panelas e 1 frigideira. Pouco uso, como novas.",
+                category: "casa",
+                condition: "seminovo",
+                desiredTrade: "Liquidificador ou Air Fryer",
+                image: "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=400&h=300&fit=crop",
+                location: "Salvador, BA",
+                date: "4 dias atrás",
+                trader: "Juliana Lima",
+                popularity: 82
+            },
+            {
+                id: 7,
+                title: "Furadeira de Impacto 500W",
+                description: "Furadeira profissional com acessórios. Funcionando perfeitamente.",
+                category: "ferramentas",
+                condition: "usado",
+                desiredTrade: "Parafusadeira ou Lixadeira",
+                image: "https://images.unsplash.com/photo-1572981779307-38f8b0448d51?w=400&h=300&fit=crop",
+                location: "Fortaleza, CE",
+                date: "6 dias atrás",
+                trader: "Fernando Oliveira",
+                popularity: 75
+            },
+            {
+                id: 8,
+                title: "Console PlayStation 4 Slim",
+                description: "PS4 Slim 1TB com 2 controles e 5 jogos. Excelente estado.",
+                category: "eletronicos",
+                condition: "seminovo",
+                desiredTrade: "Nintendo Switch ou Xbox One",
+                image: "https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=400&h=300&fit=crop",
+                location: "Brasília, DF",
+                date: "2 dias atrás",
+                trader: "Beatriz Souza",
+                popularity: 96
+            },
+            {
+                id: 9,
+                title: "Mochila de Trilha 40L",
+                description: "Mochila para trekking, impermeável, com sistema de hidratação.",
+                category: "esportes",
+                condition: "novo",
+                desiredTrade: "Saco de Dormir ou Barraca",
+                image: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=300&fit=crop",
+                location: "Recife, PE",
+                date: "3 dias atrás",
+                trader: "Carlos Silva",
+                popularity: 80
+            },
+            {
+                id: 10,
+                title: "Luminária de Mesa Vintage",
+                description: "Luminária de mesa estilo industrial, com lâmpada LED incluída.",
+                category: "casa",
+                condition: "usado",
+                desiredTrade: "Abajur ou Cesto de Roupa",
+                image: "https://images.unsplash.com/photo-1507473885765-e6ed057f782c?w=400&h=300&fit=crop",
+                location: "Manaus, AM",
+                date: "1 semana atrás",
+                trader: "Miguel Santos",
+                popularity: 73
+            }
+        ];
+
+        // Mapeamento de categorias
+        const categoryMap = {
+            'eletronicos': 'Eletrônicos',
+            'livros': 'Livros',
+            'roupas': 'Roupas',
+            'esportes': 'Esportes',
+            'casa': 'Casa e Decoração',
+            'instrumentos': 'Instrumentos Musicais',
+            'ferramentas': 'Ferramentas'
+        };
+
+        // Mapeamento de condições
+        const conditionMap = {
+            'novo': 'Novo',
+            'seminovo': 'Semi-novo',
+            'usado': 'Usado'
+        };
+
+        // Elementos do DOM
+        const itemsContainer = document.getElementById('items-container');
+        const resultsCount = document.getElementById('results-count');
+        const activeFilters = document.getElementById('active-filters');
+        const categoryFilter = document.getElementById('category-filter');
+        const conditionFilter = document.getElementById('condition-filter');
+        const sortFilter = document.getElementById('sort-filter');
+        const searchInput = document.getElementById('search-input');
+
+        // Estado dos filtros
+        let currentFilters = {
+            category: '',
+            condition: '',
+            sort: 'popular',
+            search: ''
+        };
+
+        // Função para exibir os itens
+        function displayItems(items) {
+            if (items.length === 0) {
+                itemsContainer.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Nenhum item encontrado</h3>
+                        <p>Tente ajustar os filtros de busca</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            itemsContainer.innerHTML = '';
+            
+            items.forEach(item => {
+                const itemCard = document.createElement('div');
+                itemCard.className = 'item-card';
+                
+                itemCard.innerHTML = `
+                    <img src="${item.image}" alt="${item.title}" class="item-image">
+                    <div class="item-content">
+                        <div>
+                            <span class="item-category">${categoryMap[item.category]}</span>
+                            <span class="item-condition">${conditionMap[item.condition]}</span>
+                        </div>
+                        <h3 class="item-title">${item.title}</h3>
+                        <p>${item.description}</p>
+                        
+                        <div class="trade-info">
+                            Busca em troca:
+                            <strong>${item.desiredTrade}</strong>
+                        </div>
+                        
+                        <div class="item-meta">
+                            <div class="item-location">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                ${item.location}
+                            </div>
+                            <div class="item-date">${item.date}</div>
+                        </div>
+                        
+                        <div class="item-trader">
+                            <div class="trader-avatar">
+                                ${item.trader.split(' ').map(n => n[0]).join('')}
+                            </div>
+                            <div class="trader-info">
+                                <h4>${item.trader}</h4>
+                                <p>Trocador</p>
+                            </div>
+                        </div>
+                        
+                        <div class="item-actions">
+                            <button class="btn-primary" onclick="proposeTrade(${item.id})">Propor Troca</button>
+                            <button class="btn-secondary" onclick="viewItemDetails(${item.id})">Detalhes</button>
+                        </div>
+                    </div>
+                `;
+                
+                itemsContainer.appendChild(itemCard);
+            });
+        }
+
+        // Função para filtrar e ordenar itens
+        function filterAndSortItems() {
+            let filteredItems = [...itemsData];
+            
+            // Filtro por categoria
+            if (currentFilters.category) {
+                filteredItems = filteredItems.filter(item => item.category === currentFilters.category);
+            }
+            
+            // Filtro por condição
+            if (currentFilters.condition) {
+                filteredItems = filteredItems.filter(item => item.condition === currentFilters.condition);
+            }
+            
+            // Filtro por busca
+            if (currentFilters.search) {
+                const searchTerm = currentFilters.search.toLowerCase();
+                filteredItems = filteredItems.filter(item => 
+                    item.title.toLowerCase().includes(searchTerm) || 
+                    item.description.toLowerCase().includes(searchTerm) ||
+                    item.desiredTrade.toLowerCase().includes(searchTerm) ||
+                    categoryMap[item.category].toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            // Ordenação
+            switch (currentFilters.sort) {
+                case 'recentes':
+                    // Simulação de ordenação por data (mais recentes primeiro)
+                    filteredItems.sort((a, b) => b.id - a.id);
+                    break;
+                case 'proximidade':
+                    // Simulação de ordenação por proximidade
+                    filteredItems.sort(() => Math.random() - 0.5);
+                    break;
+                case 'popular':
+                default:
+                    filteredItems.sort((a, b) => b.popularity - a.popularity);
+                    break;
+            }
+            
+            return filteredItems;
+        }
+
+        // Função para atualizar a interface
+        function updateUI() {
+            const filteredItems = filterAndSortItems();
+            
+            // Atualizar contador de resultados
+            resultsCount.textContent = `${filteredItems.length} item(s) encontrado(s)`;
+            
+            // Atualizar filtros ativos
+            updateActiveFilters();
+            
+            // Exibir itens
+            displayItems(filteredItems);
+        }
+
+        // Função para atualizar os filtros ativos
+        function updateActiveFilters() {
+            activeFilters.innerHTML = '';
+            
+            if (currentFilters.category) {
+                const tag = document.createElement('div');
+                tag.className = 'filter-tag';
+                tag.innerHTML = `
+                    Categoria: ${categoryMap[currentFilters.category]}
+                    <span class="remove" onclick="removeFilter('category')">×</span>
+                `;
+                activeFilters.appendChild(tag);
+            }
+            
+            if (currentFilters.condition) {
+                const tag = document.createElement('div');
+                tag.className = 'filter-tag';
+                tag.innerHTML = `
+                    Condição: ${conditionMap[currentFilters.condition]}
+                    <span class="remove" onclick="removeFilter('condition')">×</span>
+                `;
+                activeFilters.appendChild(tag);
+            }
+            
+            if (currentFilters.search) {
+                const tag = document.createElement('div');
+                tag.className = 'filter-tag';
+                tag.innerHTML = `
+                    Busca: "${currentFilters.search}"
+                    <span class="remove" onclick="removeFilter('search')">×</span>
+                `;
+                activeFilters.appendChild(tag);
+            }
+        }
+
+        // Função para remover filtro
+        function removeFilter(filterType) {
+            if (filterType === 'category') {
+                currentFilters.category = '';
+                categoryFilter.value = '';
+            } else if (filterType === 'condition') {
+                currentFilters.condition = '';
+                conditionFilter.value = '';
+            } else if (filterType === 'search') {
+                currentFilters.search = '';
+                searchInput.value = '';
+            }
+            updateUI();
+        }
+
+        // Funções de ação dos botões
+        function proposeTrade(itemId) {
+            alert(`Proposta de troca enviada para o item ${itemId}!`);
+        }
+
+        function viewItemDetails(itemId) {
+            alert(`Detalhes do item ${itemId} (funcionalidade em desenvolvimento)`);
+        }
+
+        // Inicialização da página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Exibir todos os itens inicialmente
+            updateUI();
+            
+            // Adiciona event listeners para os filtros
+            categoryFilter.addEventListener('change', function() {
+                currentFilters.category = this.value;
+                updateUI();
+            });
+            
+            conditionFilter.addEventListener('change', function() {
+                currentFilters.condition = this.value;
+                updateUI();
+            });
+            
+            sortFilter.addEventListener('change', function() {
+                currentFilters.sort = this.value;
+                updateUI();
+            });
+            
+            searchInput.addEventListener('input', function() {
+                currentFilters.search = this.value;
+                updateUI();
+            });
+        });
+    </script>
+</body>
+</html>
